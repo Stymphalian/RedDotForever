@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<title>Red Dot Forever</title>
+<style type="text/css">
+<!--
+body
+{
+	background-color: #ffffff;
+	font: normal 80% Verdana,Arial,Helvetica,sans-serif;
+	color: #000000;
+}
+
+a         { color: #5C60F4; }
+a:hover   { color: #D24400; }
+a:visited { color: #B0B0B0; }
+
+h1, h2
+{
+	color: #800000;
+}
+
+li
+{
+	margin-bottom: 1em;
+}
+
+li li
+{
+	margin-bottom: 0em;
+}
+-->
+</style>
+</head>
+
+<body>
+
+<h1>Red Dot Forever 1.04</h1>
+
+<p><b>Red Dot Forever</b> is an extremely <i>simple</i> program to record MIDI files. For advanced editing of MIDI files you'll probably need to look elsewhere &mdash; but if you just want to RECORD, listen back to what you PLAYed, and finally SAVE your recording to disk, then Red Dot Forever is all you need. :-)</p>
+
+<p>Tested on Windows XP.</p>
+
+<p>Enjoy this freeware!</p>
+
+<div class="donate">If you enjoy using Red Dot Forever, please consider making a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=payments%40hollemansproductions%2ecom&item_name=Red%20Dot%20Forever%20Donation&no_shipping=2&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8">donation</a> to help us continue to develop and support this fine program. Thank you for your support!</div>
+
+<h2>How to use</h2> 
+
+<p>It couldn't be easier:</p>
+
+<ul>
+<li>Press the big red dot (<b>REC</b>) to start recording. When you're done, press <b>STOP</b>.</li>
+<li>Not sure if you liked the recording? Press <b>PLAY</b> to hear it again.</li>
+<li>If you're happy, press <b>SAVE</b> to save a MIDI file to your computer.</li>
+<li>If you didn't like it, press <b>REC</b> to have another go. This will throw away the old recording.</li>
+</ul>
+
+<p>The program doesn't have more features than that. No metronome, no quantizing, no editing, no... whatever. Just RECORD, PLAY and SAVE.</p>
+
+<h2>Options</h2> 
+
+<p>Press <b>OPTIONS</b> to bring up the configuration screen:</p>
+
+<ul>
+<li><b>MIDI Input:</b> The port that you'll be recording from. It should be connected to your piano or keyboard.</li>
+<li><b>MIDI Output:</b> For playing back what you recorded. Use your piano or the software synthesizer that's built into Windows.</li>
+<li><b>Echo input while recording:</b> When a MIDI cable is plugged into some keyboards, pressing the keys no longer produces sound. If you enable this option, any incoming MIDI events are immediately sent to the chosen MIDI Output, so you can still hear yourself play (there may be a slight delay). Alternatively, your keyboard may have an option to enable sound again (called "Local Control").</li>
+<li><b>Ignore MIDI events:</b> Here you can choose which types of events Red Dot Forever should not record. (Note: Channel Mode and SysEx messages are never recorded.)</li>
+<li><b>MIDI triggers:</b> You can assign MIDI events to RECORD, STOP and PLAY. This way you can control Red Dot directly and conveniently from your instrument. You can set the RECORD and STOP triggers to the same event if you wish (though this won't work very well with a pitch wheel, for example).</li>
+</ul>
+
+<h2>Extra bonus features</h2>
+
+<ul>
+<li>For your convenience, a timer keeps track of how long you've been recording already. It starts ticking at the first note you play.</li>
+<li>Recording won't start until the first actual note is played, so there won't be long silences at the start of the MIDI file.</li>
+</ul>
+
+<h2>Shortcut keys</h2>
+
+<ul>
+<li><b>R</b>: Start recording (also <b>Enter</b> or <b>Space</b>)</li>
+<li><b>P</b>: Start playback</li>
+<li><b>X</b>: Stop recording/playback</li>
+<li><b>S</b>: Save to MIDI file</li>
+</ul>
+
+<h2>Problems?</h2>
+
+<ul>
+<li>If you get an error message that the MIDI Input or MIDI Output port is in use, then close all other programs that use MIDI (such as audio players) and try again.</li>
+<li>Some MIDI USB devices seem to act up from time to time. If you keep getting an error message, or if nothing seems to be recorded, unplug your MIDI USB device and plug it back in again and then restart Red Dot Forever. That seems to solve it.</li>
+</ul>
+
+<h2>Voices/program changes</h2>
+
+<p>Red Dot Forever simply records the MIDI events that are sent to it from your digital piano, keyboard, MIDI controller, etc. When you change a voice on your instrument, it sends a MIDI "program change" event to Red Dot.</p>
+
+<p>This means that  if you select a sound, for example organ, <i>before</i> you start the recording, Red Dot does not know you used an organ. The necessary Program Change event that selected the organ voice was sent when Red Dot wasn't yet recording anything.</p>
+
+<p>To incorporate these Program Change events in your MIDI file, first press RECORD and then change the sounds. (Also make sure in the Options screen that Program Change events are not being ignored.)</p>
+
+<p>If you recorded a MIDI file without the Program Changes that you need, you may be able to select the proper sounds on your instrument before playing back the MIDI file. You may also use other software to play the MIDI file, that has options for assinging voices to the MIDI channels. Finally, you can insert your own Program Change events afterwards with MIDI editing software.</p>
+
+<h2>Tips</h2>
+
+<p>To edit your MIDI files, use <a href="http://www.anvilstudio.com">Anvil Studio</a> (free).</p>
+
+<p>For playing back your MIDI files, I recommend <a href="http://www.vanbasco.com/karaokeplayer/">vanBasco's Karaoke Player</a> or <a href="http://www.notation.com/MidiNotatePlayer.htm">MidiNotate Player</a> or <a href="http://www.synthfont.com/">SynthFont</a> (all free).</p>
+
+<h2>Version history</h2>
+
+<ul>
+<li>v1.04, 8-sept-2007:
+<ul>
+<li>You can now use MIDI "triggers" to start/stop recording and playback. To accomodate this, Red Dot has to open MIDI IN and OUT as soon as the program starts. This can lead to conflicts with other MIDI programs running at the same time.</li>
+<li>Timer is now also used for playback.</li>
+</ul></li>
+<li>v1.03, 4-feb-2007:
+<ul>
+<li>Made STOP a separate button so you can no longer accidentally double-click it and overwrite your fresh recording with a new one.</li>
+<li>Moved settings to Options dialog. Settings are now remembered.</li>
+<li>You can now filter out certain types of MIDI events (like aftertouch).</li>
+<li>The record timer now doesn't begin until the first NOTE ON event.</li>
+<li>Clicking STOP now immediately aborts playback (it used to wait until the next event).</li>
+<li>Added EDIT button but it doesn't do anything yet.</li>
+<li>Code cleanup.</li>
+</ul></li>
+<li>v1.02, 3-oct-2006. Fixed a silly bug that screwed up the timing on long recordings.</li>
+<li>v1.01, 29-aug-2006. Fixed some text. Included source code.</li>
+<li>v1.0, 28-aug-2006. First version.</li>
+</ul>
+
+<h2>License</h2>
+
+<p>Red Dot Forever is copyright &copy; 2006-2007 <a href="mailto:mahlzeit@users.sf.net">Matthijs Hollemans</a></p>
+
+<p>Portions taken from the Haiku Midi Kit are:</p>
+
+<blockquote><p>Copyright (c) 2002-2004 Matthijs Hollemans<br/>
+Copyright (c) 2002 Jerome Leveque<br/>
+Copyright (c) 2002 Paul Stadler</p></blockquote>
+
+<p>This source code is licensed under the terms of the MIT license:</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+</body>
+</html>

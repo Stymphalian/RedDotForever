@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4DFCD41B-50A5-44F5-BB9F-786DF5ADBFF1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Reddot</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Jordan\Desktop\CP\C++\reddot-develop-1_04\develop\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>C:\Users\Jordan\Desktop\CP\C++\reddot-develop-1_04\develop\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\develop\source\AboutBox.cpp" />
+    <ClCompile Include="..\..\..\develop\source\bugsbgone.cpp" />
+    <ClCompile Include="..\..\..\develop\source\Clock.cpp" />
+    <ClCompile Include="..\..\..\develop\source\framework.cpp" />
+    <ClCompile Include="..\..\..\develop\source\HyperLink.cpp" />
+    <ClCompile Include="..\..\..\develop\source\Label.cpp" />
+    <ClCompile Include="..\..\..\develop\source\main.cpp" />
+    <ClCompile Include="..\..\..\develop\source\MainWindow.cpp" />
+    <ClCompile Include="..\..\..\develop\source\MidiList.cpp" />
+    <ClCompile Include="..\..\..\develop\source\MidiWriter.cpp" />
+    <ClCompile Include="..\..\..\develop\source\OptionsDialog.cpp" />
+    <ClCompile Include="..\..\..\develop\source\Settings.cpp" />
+    <ClCompile Include="..\..\..\develop\source\thread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\develop\source\AboutBox.h" />
+    <ClInclude Include="..\..\..\develop\source\bugsbgone.h" />
+    <ClInclude Include="..\..\..\develop\source\Clock.h" />
+    <ClInclude Include="..\..\..\develop\source\defs.h" />
+    <ClInclude Include="..\..\..\develop\source\framework.h" />
+    <ClInclude Include="..\..\..\develop\source\HyperLink.h" />
+    <ClInclude Include="..\..\..\develop\source\Label.h" />
+    <ClInclude Include="..\..\..\develop\source\MainWindow.h" />
+    <ClInclude Include="..\..\..\develop\source\MidiList.h" />
+    <ClInclude Include="..\..\..\develop\source\MidiWriter.h" />
+    <ClInclude Include="..\..\..\develop\source\OptionsDialog.h" />
+    <ClInclude Include="..\..\..\develop\source\Settings.h" />
+    <ClInclude Include="..\..\..\develop\source\thread.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\develop\source\edit.ico" />
+    <Image Include="..\..\..\develop\source\options.ico" />
+    <Image Include="..\..\..\develop\source\play.ico" />
+    <Image Include="..\..\..\develop\source\record.ico" />
+    <Image Include="..\..\..\develop\source\reddot.ico" />
+    <Image Include="..\..\..\develop\source\save.ico" />
+    <Image Include="..\..\..\develop\source\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\develop\source\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\develop\source\manifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\develop\source\reddot.cbp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\develop\source\reddot.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="\Users\Jordan\Desktop\CP\C++\reddot-develop-1_04\develop\source\reddot.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
