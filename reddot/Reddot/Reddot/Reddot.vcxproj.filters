@@ -15,124 +15,121 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\develop\source\AboutBox.cpp">
+    <ClCompile Include="src\AboutBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\bugsbgone.cpp">
+    <ClCompile Include="src\bugsbgone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\Clock.cpp">
+    <ClCompile Include="src\Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\framework.cpp">
+    <ClCompile Include="src\framework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\HyperLink.cpp">
+    <ClCompile Include="src\HyperLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\Label.cpp">
+    <ClCompile Include="src\Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\MainWindow.cpp">
+    <ClCompile Include="src\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\MidiList.cpp">
+    <ClCompile Include="src\MidiList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\MidiWriter.cpp">
+    <ClCompile Include="src\MidiWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\OptionsDialog.cpp">
+    <ClCompile Include="src\OptionsDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\Settings.cpp">
+    <ClCompile Include="src\Settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\develop\source\thread.cpp">
+    <ClCompile Include="src\thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unicode_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\develop\source\AboutBox.h">
+    <ClInclude Include="src\AboutBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\bugsbgone.h">
+    <ClInclude Include="src\bugsbgone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\Clock.h">
+    <ClInclude Include="src\Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\defs.h">
+    <ClInclude Include="src\defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\framework.h">
+    <ClInclude Include="src\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\HyperLink.h">
+    <ClInclude Include="src\HyperLink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\Label.h">
+    <ClInclude Include="src\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\MainWindow.h">
+    <ClInclude Include="src\MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\MidiList.h">
+    <ClInclude Include="src\MidiList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\MidiWriter.h">
+    <ClInclude Include="src\MidiWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\OptionsDialog.h">
+    <ClInclude Include="src\OptionsDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\Settings.h">
+    <ClInclude Include="src\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\develop\source\thread.h">
+    <ClInclude Include="src\thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\unicode_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\develop\source\edit.ico">
+    <Image Include="src\edit.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\options.ico">
+    <Image Include="src\options.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\play.ico">
+    <Image Include="src\play.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\record.ico">
+    <Image Include="src\record.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\reddot.ico">
+    <Image Include="src\reddot.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\save.ico">
+    <Image Include="src\save.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\develop\source\stop.ico">
+    <Image Include="src\stop.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\develop\source\license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\develop\source\reddot.cbp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\..\develop\source\manifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\..\develop\source\reddot.rc">
+    <ResourceCompile Include="src\reddot.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

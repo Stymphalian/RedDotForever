@@ -32,13 +32,11 @@ const UINT MSG_PLAYBACK_DONE = ::RegisterWindowMessage(
 void MainWindow::Go()
 {
 	::DialogBoxParam(
-		appInstance, 					// the window handle which will contain
-										//	the dialog
+		appInstance, 					// the window handle holding the dialog
 		MAKEINTRESOURCE(IDD_DIALOG),	// dialog template to use
 		 NULL, 							// no parent
 		 DlgProc,						// the callback to run for this dialog
-		(LPARAM) this);					// user-defined parameter to pass to
-										//	the dialog
+		(LPARAM) this);					// user-defined parameter
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +137,7 @@ void MainWindow::OnInitDialog()
 	HICON icon = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_ICON));
 	::SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM) icon);
 
+	// Create Icon resources
 	HICON iconRecord  = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_RECORD));
 	HICON iconStop    = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_STOP));
 	HICON iconPlay    = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_PLAY));
@@ -146,6 +145,8 @@ void MainWindow::OnInitDialog()
 	HICON iconEdit    = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_EDIT));
 	HICON iconOptions = ::LoadIcon(appInstance, MAKEINTRESOURCE(IDI_OPTIONS));
 
+	// send messages to ourselve telling ourselve to set the specified icons on
+	// the GUI
 	::SendDlgItemMessage(hwnd, IDC_RECORD, BM_SETIMAGE, IMAGE_ICON, (LPARAM) iconRecord);
 	::SendDlgItemMessage(hwnd, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM) iconStop);
 	::SendDlgItemMessage(hwnd, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM) iconPlay);
@@ -153,9 +154,12 @@ void MainWindow::OnInitDialog()
 	::SendDlgItemMessage(hwnd, IDC_EDIT, BM_SETIMAGE, IMAGE_ICON, (LPARAM) iconEdit);
 	::SendDlgItemMessage(hwnd, IDC_OPTIONS, BM_SETIMAGE, IMAGE_ICON, (LPARAM) iconOptions);
 
+
 	theClock.Subclass(hwnd, IDC_CLOCK);
 	theClock.SetState(CLOCK_INACTIVE);
 
+	// we are currenlty in the idle state, so update the UI to show the
+	// the state to be IDLE, the store/song stored is currenty
 	UpdateControls();
 
 	::SendMessage(hwnd, DM_SETDEFID, (WPARAM) IDC_RECORD, 0);

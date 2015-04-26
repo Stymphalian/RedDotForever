@@ -180,8 +180,8 @@ void FreeBitmap(HBITMAP bitmap);
 
 void DrawBitmap(HDC hdc, HBITMAP bmap, int x, int y);
 
-//void CenterText(HDC hdc, int x, int w, int y, int h, const char* str, RECT* out = NULL);
-void CenterText(HDC hdc, int x, int w, int y, int h, const wchar_t* str, RECT* out = NULL);
+void CenterText(HDC hdc, int x, int w, int y, int h, const char* str, RECT* out = NULL);
+// void CenterText(HDC hdc, int x, int w, int y, int h, const wchar_t* str, RECT* out = NULL);
 
 void EnableDlgItem(HWND hwnd, UINT id, BOOL enable);
 

@@ -1,4 +1,7 @@
 
+Author: Jordan Yu
+Date: April 25th, 2015
+
 RED DOT FOREVER is copyright (c) 2006-2007 Matthijs Hollemans
 
 Portions taken from the Haiku Midi Kit are:

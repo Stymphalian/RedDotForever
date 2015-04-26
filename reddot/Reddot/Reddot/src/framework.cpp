@@ -128,6 +128,8 @@ BOOL CALLBACK Dialog::DlgProc(
 	}
 	else
 	{
+		// retrieve the lParam value which was originally pased
+		// in on the initial creation of the dialog...?
 		ptr = (Dialog*) ::GetWindowLong(hwnd, GWL_USERDATA);
 	}
 

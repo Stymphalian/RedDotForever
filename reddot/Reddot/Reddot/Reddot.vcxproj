@@ -10,6 +10,51 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AboutBox.cpp" />
+    <ClCompile Include="src\bugsbgone.cpp" />
+    <ClCompile Include="src\Clock.cpp" />
+    <ClCompile Include="src\framework.cpp" />
+    <ClCompile Include="src\HyperLink.cpp" />
+    <ClCompile Include="src\Label.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\MidiList.cpp" />
+    <ClCompile Include="src\MidiWriter.cpp" />
+    <ClCompile Include="src\OptionsDialog.cpp" />
+    <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\thread.cpp" />
+    <ClCompile Include="src\unicode_utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AboutBox.h" />
+    <ClInclude Include="src\bugsbgone.h" />
+    <ClInclude Include="src\Clock.h" />
+    <ClInclude Include="src\defs.h" />
+    <ClInclude Include="src\framework.h" />
+    <ClInclude Include="src\HyperLink.h" />
+    <ClInclude Include="src\Label.h" />
+    <ClInclude Include="src\MainWindow.h" />
+    <ClInclude Include="src\MidiList.h" />
+    <ClInclude Include="src\MidiWriter.h" />
+    <ClInclude Include="src\OptionsDialog.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Settings.h" />
+    <ClInclude Include="src\thread.h" />
+    <ClInclude Include="src\unicode_utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\edit.ico" />
+    <Image Include="src\options.ico" />
+    <Image Include="src\play.ico" />
+    <Image Include="src\record.ico" />
+    <Image Include="src\reddot.ico" />
+    <Image Include="src\save.ico" />
+    <Image Include="src\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\reddot.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4DFCD41B-50A5-44F5-BB9F-786DF5ADBFF1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -48,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Jordan\Desktop\CP\C++\reddot-develop-1_04\develop\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,58 +122,6 @@
       <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\develop\source\AboutBox.cpp" />
-    <ClCompile Include="..\..\..\develop\source\bugsbgone.cpp" />
-    <ClCompile Include="..\..\..\develop\source\Clock.cpp" />
-    <ClCompile Include="..\..\..\develop\source\framework.cpp" />
-    <ClCompile Include="..\..\..\develop\source\HyperLink.cpp" />
-    <ClCompile Include="..\..\..\develop\source\Label.cpp" />
-    <ClCompile Include="..\..\..\develop\source\main.cpp" />
-    <ClCompile Include="..\..\..\develop\source\MainWindow.cpp" />
-    <ClCompile Include="..\..\..\develop\source\MidiList.cpp" />
-    <ClCompile Include="..\..\..\develop\source\MidiWriter.cpp" />
-    <ClCompile Include="..\..\..\develop\source\OptionsDialog.cpp" />
-    <ClCompile Include="..\..\..\develop\source\Settings.cpp" />
-    <ClCompile Include="..\..\..\develop\source\thread.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\develop\source\AboutBox.h" />
-    <ClInclude Include="..\..\..\develop\source\bugsbgone.h" />
-    <ClInclude Include="..\..\..\develop\source\Clock.h" />
-    <ClInclude Include="..\..\..\develop\source\defs.h" />
-    <ClInclude Include="..\..\..\develop\source\framework.h" />
-    <ClInclude Include="..\..\..\develop\source\HyperLink.h" />
-    <ClInclude Include="..\..\..\develop\source\Label.h" />
-    <ClInclude Include="..\..\..\develop\source\MainWindow.h" />
-    <ClInclude Include="..\..\..\develop\source\MidiList.h" />
-    <ClInclude Include="..\..\..\develop\source\MidiWriter.h" />
-    <ClInclude Include="..\..\..\develop\source\OptionsDialog.h" />
-    <ClInclude Include="..\..\..\develop\source\Settings.h" />
-    <ClInclude Include="..\..\..\develop\source\thread.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\develop\source\edit.ico" />
-    <Image Include="..\..\..\develop\source\options.ico" />
-    <Image Include="..\..\..\develop\source\play.ico" />
-    <Image Include="..\..\..\develop\source\record.ico" />
-    <Image Include="..\..\..\develop\source\reddot.ico" />
-    <Image Include="..\..\..\develop\source\save.ico" />
-    <Image Include="..\..\..\develop\source\stop.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\develop\source\license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\..\develop\source\manifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\develop\source\reddot.cbp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\..\develop\source\reddot.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
