@@ -16,6 +16,7 @@
     <ClCompile Include="src\Clock.cpp" />
     <ClCompile Include="src\framework.cpp" />
     <ClCompile Include="src\HyperLink.cpp" />
+    <ClCompile Include="src\ini_reader\IniReader.cpp" />
     <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="src\defs.h" />
     <ClInclude Include="src\framework.h" />
     <ClInclude Include="src\HyperLink.h" />
+    <ClInclude Include="src\ini_reader\IniReader.h" />
     <ClInclude Include="src\Label.h" />
     <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="src\MidiList.h" />

@@ -1,3 +1,5 @@
+#include <iostream>
+#include <fstream>
 
 #include "framework.h"
 #include "defs.h"
@@ -38,7 +40,7 @@ Settings::Settings()
 ////////////////////////////////////////////////////////////////////////////////
 
 void Settings::Load()
-{
+{	
 	inDev = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_INPUT_DEV, 0);
 	outDev = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_OUTPUT_DEV, 0);
 
