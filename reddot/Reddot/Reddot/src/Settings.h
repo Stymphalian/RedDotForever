@@ -2,6 +2,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "ini_reader\IniReader.h"
 #define NO_TRIGGER  -1
 
 enum
@@ -30,6 +31,8 @@ public:
 
 	int triggerStatus[NUM_TRIGGERS];
 	int triggerValue[NUM_TRIGGERS];
+
+	IniReader _iniReader;
 };
 
 #endif // SETTINGS_H

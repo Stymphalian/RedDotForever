@@ -54,26 +54,26 @@ bool IniReader::Save(std::string path)
 }
 
 // retrieve values from keys
-std::string IniReader::GetString(std::string key,std::string section)
+std::string IniReader::GetString(std::string key,std::string section,std::string defaultValue)
 {
-    if(!Has(key,section)){return "";}
+    if(!Has(key,section)){return defaultValue;}
     return _find(key,section)->value;
 }
 
-int IniReader::GetInt(std::string key,std::string section)
+int IniReader::GetInt(std::string key,std::string section,int defaultValue)
 {
-    if(!Has(key,section)){return 0;}
+    if(!Has(key,section)){return defaultValue;}
     return atoi(_find(key,section)->value.c_str());
 }
 
-float IniReader::GetFloat(std::string key,std::string section)
+float IniReader::GetFloat(std::string key,std::string section,float defaultValue)
 {
-    if(!Has(key,section)){return 0.0f;}
+    if(!Has(key,section)){return defaultValue;}
     return static_cast<float>(atof(_find(key,section)->value.c_str()));
 }
-bool  IniReader::GetBool(std::string key,std::string section)
+bool  IniReader::GetBool(std::string key,std::string section,bool defaultValue)
 {
-    if(!Has(key,section)){return false;}
+    if(!Has(key,section)){return defaultValue;}
     std::string rs = _find(key,section)->value;
     return ( rs == "true" || rs == "1");
 }
@@ -175,7 +175,6 @@ void IniReader::_set_empty_line()
 {
     Token tok;
     tok.is_empty_line = true;
-    //tok.value = std::endl;
     _tokens.push_back(tok);
 }
 

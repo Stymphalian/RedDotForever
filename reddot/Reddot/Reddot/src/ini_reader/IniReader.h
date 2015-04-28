@@ -42,10 +42,10 @@ public:
     bool Has(std::string key, std::string section = "");
 
     // retrieve values from keys
-    std::string GetString (std::string key,std::string section="");
-    int         GetInt    (std::string key,std::string section="");
-    float       GetFloat  (std::string key,std::string section="");
-    bool        GetBool   (std::string key,std::string section="");
+    std::string GetString (std::string key,std::string section="",std::string defaultValue="");
+    int         GetInt    (std::string key,std::string section="",int defaultValue= 0);
+    float       GetFloat  (std::string key,std::string section="",float defaultValue=0.0f);
+    bool        GetBool   (std::string key,std::string section="",bool defaultValue=false);
 
     // set value for the particular key.
     bool SetString (std::string key,std::string value,std::string section="");
