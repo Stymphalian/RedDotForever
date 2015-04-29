@@ -1,5 +1,8 @@
 
+#include <string>
+#include "unicode_utils.h"
 #include "framework.h"
+#include "bugsbgone.h"
 #include "HyperLink.h"
 
 #define LINK_COLOR  RGB(0x0D, 0x45, 0xAC)
@@ -8,7 +11,8 @@
 
 HyperLink::HyperLink()
 {
-	url = NULL;
+	//url = NULL;
+	url = "";
 	cursor = NULL;
 	underlineFont = NULL;
 }
@@ -22,7 +26,7 @@ HyperLink::~HyperLink()
 	if (cursor != NULL)
 		::DestroyCursor(cursor);
 
-	free(url);
+	//free(url);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,8 +34,8 @@ HyperLink::~HyperLink()
 void HyperLink::SetURL(const char* url_)
 {
 	ASSURE(url_ != NULL)
-	url = _strdup(url_);
-	//url = strdup(url_);
+	// make a std::string copy of the url
+	this->url = url_;		
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,9 +91,14 @@ LRESULT HyperLink::OnReflect(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT HyperLink::OnReflectCommand(WPARAM wParam, LPARAM lParam)
 {
+
 	if (HIWORD(wParam) == STN_CLICKED)
 	{
-		if (url != NULL) { OpenUrl(url); }
+		trace(__FILEW__, __LINE__, L"%s", unicode_utils::utf8_to_utf16(url,NULL));
+		if( !url.empty()){
+			OpenUrl(url.c_str());
+		}
+		//if (url != NULL) { OpenUrl(url); }
 	}
 
 	return 0;
@@ -111,9 +120,7 @@ LRESULT HyperLink::OnReflectCtlColor(WPARAM wParam, LPARAM lParam)
 
 void HyperLink::FitWindow()
 {
-	
-	//wchar_t* text = GetWndText(hwnd);
-	char* text = GetWndText(hwnd);
+	std::wstring text = unicode_utils::utf8_to_utf16(GetWndText(hwnd), NULL);
 
 	RECT rect;
 	::GetWindowRect(hwnd, &rect);
@@ -122,14 +129,13 @@ void HyperLink::FitWindow()
 	HDC hdc = ::GetDC(hwnd);
 	HGDIOBJ oldFont = ::SelectObject(hdc, underlineFont);
 
-	SIZE extent;		
-	//::GetTextExtentPoint32(hdc, text, wcslen(text), &extent);
-	::GetTextExtentPoint32(hdc, text, strlen(text), &extent);
+	SIZE extent;
+	::GetTextExtentPoint32(hdc, text.c_str(), text.length(), &extent);
 
 	::SelectObject(hdc, oldFont);
 	::ReleaseDC(hwnd, hdc);
 
-	free(text);
+	//free(text);
 
 	int x = rect.left;
 	int y = rect.top;

@@ -8,7 +8,8 @@
 #define CHECKPOINT(msg) { TRACE((__FILE__, __LINE__, "CHECKPOINT %s", msg)) }
 #define ASSURE(expr)    { assure(__FILE__, __LINE__, expr, #expr); }
 
-void trace(char*, int, const char*, ...);
+//void trace(char*, int, const char*, ...);
+void trace(wchar_t*, int, const wchar_t*, ...);
 void assure(char*, int, bool, char*);
 
 #else

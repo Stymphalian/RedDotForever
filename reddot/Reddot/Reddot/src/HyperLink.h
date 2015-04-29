@@ -2,6 +2,8 @@
 #ifndef HYPERLINK_H
 #define HYPERLINK_H
 
+#include <string>
+
 class HyperLink : public Subclassed
 {
 public:
@@ -22,7 +24,8 @@ protected:
 	void FitWindow();
 
 protected:
-	char* url;
+	//char* url;
+	std::string url;
 	HCURSOR cursor;
 	HFONT underlineFont;
 };

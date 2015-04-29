@@ -4,6 +4,7 @@
 #include "MidiList.h"
 #include "OptionsDialog.h"
 #include "Settings.h"
+#include "bugsbgone.h"
 #include <stdio.h>
 
 static char* noteLookup[128] =
@@ -185,7 +186,7 @@ BOOL TriggerDialog::OnMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 			}
 			break;
-		}break;			
+		}break;
 	}
 
 	return FALSE;
@@ -351,55 +352,55 @@ void OptionsDialog::DisplayTrigger(int trigger)
 	int value = settings->triggerValue[trigger];
 
 	char buf[128];
-	//wchar_t buf[128];
+
 	switch (status)
 	{
-		case NO_TRIGGER:		
-			sprintf(buf, TEXT("(No trigger set)"));
+		case NO_TRIGGER:
+			sprintf(buf, "(No trigger set)");
 			//swprintf(buf, TEXT("(No trigger set)"));
 			break;
 
 		case NOTE_ON:
-			sprintf(buf, TEXT("Note On: %s"), noteLookup[value]);
+			sprintf(buf, "Note On: %s", noteLookup[value]);
 			//swprintf(buf, TEXT("Note On: %s"), noteLookup[value]);
 			break;
 
 		case NOTE_OFF:
-			sprintf(buf, TEXT("Note Off: %s"), noteLookup[value]);
+			sprintf(buf,"Note Off: %s", noteLookup[value]);
 			//swprintf(buf, TEXT("Note Off: %s"), noteLookup[value]);
 			break;
 
 		case CONTROL_CHANGE:
 			if (controllerLookup[value][0] != '\0')
-				sprintf(buf, TEXT("%s"), controllerLookup[value]);
+				sprintf(buf,"%s", controllerLookup[value]);
 				//swprintf(buf, TEXT("%s"), controllerLookup[value]);
 			else
-				sprintf(buf, TEXT("Control: 0x%x"), value);
+				sprintf(buf,"Control: 0x%x", value);
 				//swprintf(buf, TEXT("Control: 0x%x"), value);
 			break;
 
 		case KEY_PRESSURE:
-			sprintf(buf, TEXT("Key Pressure: %s"), noteLookup[value]);
+			sprintf(buf,"Key Pressure: %s", noteLookup[value]);
 			//swprintf(buf, TEXT("Key Pressure: %s"), noteLookup[value]);
 			break;
 
 		case PROGRAM_CHANGE:
-			sprintf(buf, TEXT("Program Change: %d"), value);
+			sprintf(buf, "Program Change: %d", value);
 			//swprintf(buf, TEXT("Program Change: %d"), value);
 			break;
 
 		case PITCH_BEND:
-			sprintf(buf, TEXT("Pitch Bend"));
+			sprintf(buf,"Pitch Bend");
 			//swprintf(buf, TEXT("Pitch Bend"));
 			break;
 
 		case CHANNEL_PRESSURE:
-			sprintf(buf, TEXT("Channel Pressure"));
+			sprintf(buf,"Channel Pressure");
 			//swprintf(buf, TEXT("Channel Pressure"));
 			break;
 
 		default:
-			sprintf(buf, TEXT("Event: 0x%x, 0x%x"), status, value);
+			sprintf(buf,"Event: 0x%x, 0x%x", status, value);
 			//swprintf(buf, TEXT("Event: 0x%x, 0x%x"), status, value);
 			break;
 	}
@@ -411,8 +412,8 @@ void OptionsDialog::DisplayTrigger(int trigger)
 		case TRIGGER_STOP:   id = IDC_TRIGGER_STOP_EDIT;   break;
 		case TRIGGER_PLAY:   id = IDC_TRIGGER_PLAY_EDIT;   break;
 	}
-
-	::SetWindowText(GetDlgItem(hwnd, id), buf);
+		
+	::SetWindowText(GetDlgItem(hwnd, id), unicode_utils::utf8_to_utf16(buf,NULL).c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

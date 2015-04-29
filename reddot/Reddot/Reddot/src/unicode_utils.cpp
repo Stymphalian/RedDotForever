@@ -1,13 +1,13 @@
 #include <windows.h>         // WideCharToMultiByte(),MultiByteToWideChar()
+#include "bugsbgone.h"
 #include "unicode_utils.h"
 
-
-std::string utf16_to_utf8(const std::wstring& utf16_str,int* success)
+std::string unicode_utils::utf16_to_utf8(const std::wstring utf16_str,int* success)
 {
     return utf16_to_utf8(utf16_str.c_str(),success);
 }
 
-std::string utf16_to_utf8(const wchar_t* utf16_str, int* success)
+std::string unicode_utils::utf16_to_utf8(const wchar_t* utf16_str, int* success)
 {
     if(success != NULL){*success = 0;}
     if(utf16_str == NULL){ return "";}
@@ -33,9 +33,24 @@ std::string utf16_to_utf8(const wchar_t* utf16_str, int* success)
     // Therefore we must check to see if the call was successful or not.
     if(s_len == 0){
         DWORD err = GetLastError();
-        if(err != ERROR_SUCCESS){
-            return "";
+        if(err == ERROR_INSUFFICIENT_BUFFER){
+            trace(__FILEW__, __LINE__, L"%d", 0);
         }
+        else if(err == ERROR_INVALID_FLAGS){
+            trace(__FILEW__, __LINE__, L"%d", 1);
+        }
+        else if(err == ERROR_INVALID_PARAMETER){
+            trace(__FILEW__, __LINE__, L"%d", 2);
+        }
+        else if(err == ERROR_NO_UNICODE_TRANSLATION){
+            trace(__FILEW__, __LINE__, L"%d", 3);
+        }else{
+            trace(__FILEW__, __LINE__, L"%d", 4);
+        }
+		  return "";
+        // if(err != ERROR_SUCCESS){
+        //     return "";
+        // }
     }
 
     // Resize the string to be large enough to hold the converted string.
@@ -60,9 +75,24 @@ std::string utf16_to_utf8(const wchar_t* utf16_str, int* success)
     if(s_len == 0){
         // Check for same ambiguous error case as sepcified above.
         DWORD err = GetLastError();
-        if(err != ERROR_SUCCESS){
-            return "";
+        if(err == ERROR_INSUFFICIENT_BUFFER){
+            trace(__FILEW__, __LINE__, L"%d", 5);
         }
+        else if(err == ERROR_INVALID_FLAGS){
+            trace(__FILEW__, __LINE__, L"%d", 6);
+        }
+        else if(err == ERROR_INVALID_PARAMETER){
+            trace(__FILEW__, __LINE__, L"%d", 7);
+        }
+        else if(err == ERROR_NO_UNICODE_TRANSLATION){
+            trace(__FILEW__, __LINE__, L"%d", 8);
+        }else{
+            trace(__FILEW__, __LINE__, L"%d", 9);
+        }
+        return "";
+        // if(err != ERROR_SUCCESS){
+        //     return "";
+        // }
     }
 
     // Set the success flag as appropriate and return the converted string.
@@ -73,19 +103,19 @@ std::string utf16_to_utf8(const wchar_t* utf16_str, int* success)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::wstring utf8_to_utf16(const std::string& utf8_str,int* success)
+std::wstring unicode_utils::utf8_to_utf16(const std::string utf8_str,int* success)
 {
     return utf8_to_utf16(utf8_str.c_str(),success);
 }
 
-std::wstring utf8_to_utf16(const char* utf8_str,int* success)
+std::wstring unicode_utils::utf8_to_utf16(const char* utf8_str,int* success)
 {
     if(success != NULL){ *success = 0; }
     if(utf8_str == NULL){return L"";}
 
     int s_len = MultiByteToWideChar(
         CP_UTF8,                // convert from UTF-8
-        WC_ERR_INVALID_CHARS,   // safe-fail if an invalid UTF-8 char is found
+        MB_ERR_INVALID_CHARS,   // safe-fail if an invalid UTF-8 char is found
 
         utf8_str,               // the UTF-16 string to convert into UTF-8
         -1,                     // obtain the length of the string
@@ -94,6 +124,7 @@ std::wstring utf8_to_utf16(const char* utf8_str,int* success)
         0                       // set to zero in order to request only the size
         );
 
+
     // check for errors.
     // There is an ambiguous case.
     //  1) the api call returns 0 if there is an error; therefore s_len = 0
@@ -101,9 +132,27 @@ std::wstring utf8_to_utf16(const char* utf8_str,int* success)
     // Therefore we must check to see if the call was successful or not.
     if(s_len == 0){
         DWORD err = GetLastError();
-        if(err != ERROR_SUCCESS){
-            return L"";
+
+        if(err == ERROR_INSUFFICIENT_BUFFER){
+            trace(__FILEW__, __LINE__, L"%d", 0);
         }
+        else if(err == ERROR_INVALID_FLAGS){
+            trace(__FILEW__, __LINE__, L"%d", 1);
+        }
+        else if(err == ERROR_INVALID_PARAMETER){
+            trace(__FILEW__, __LINE__, L"%d", 2);
+        }
+        else if(err == ERROR_NO_UNICODE_TRANSLATION){
+            trace(__FILEW__, __LINE__, L"%d", 3);
+        }else{
+            trace(__FILEW__, __LINE__, L"%d", 4);
+        }
+        return L"";
+
+        // if(err != ERROR_SUCCESS){
+        //     trace(__FILEW__, __LINE__, L"%d", s_len);
+        //     return L"";
+        // }
     }
 
     // now do the conversion of the string
@@ -111,7 +160,7 @@ std::wstring utf8_to_utf16(const char* utf8_str,int* success)
     utf16_str.resize(s_len);
     s_len = MultiByteToWideChar(
         CP_UTF8,                // convert from UTF-8
-        WC_ERR_INVALID_CHARS,   // safely fail if an invalid UTF-8 char is found
+        MB_ERR_INVALID_CHARS,   // safely fail if an invalid UTF-8 char is found
 
         utf8_str,               // the UTF-8 string to convert into UTF-16
         s_len,                  // obtain the length of the string
@@ -124,9 +173,24 @@ std::wstring utf8_to_utf16(const char* utf8_str,int* success)
     if(s_len == 0){
         // Check for same ambiguous error case as sepcified above.
         DWORD err = GetLastError();
-        if(err != ERROR_SUCCESS){
-            return L"";
+        if(err == ERROR_INSUFFICIENT_BUFFER){
+            trace(__FILEW__, __LINE__, L"%d", 5);
         }
+        else if(err == ERROR_INVALID_FLAGS){
+            trace(__FILEW__, __LINE__, L"%d", 6);
+        }
+        else if(err == ERROR_INVALID_PARAMETER){
+            trace(__FILEW__, __LINE__, L"%d", 7);
+        }
+        else if(err == ERROR_NO_UNICODE_TRANSLATION){
+            trace(__FILEW__, __LINE__, L"%d", 8);
+        }else{
+            trace(__FILEW__, __LINE__, L"%d", 9);
+        }
+        return L"";
+        // if(err != ERROR_SUCCESS){
+        //     return L"";
+        // }
     }
 
     // set the success flag as appropriate and return the converted string.

@@ -349,13 +349,13 @@ HCURSOR LoadHandCursor()
 
 	HCURSOR cursor = NULL;
 
-	char windir[MAX_PATH + 1];
-	//wchar_t windir[MAX_PATH + 1];
+	//char windir[MAX_PATH + 1];
+	wchar_t windir[MAX_PATH + 1];
 
 	if (::GetWindowsDirectory(windir, MAX_PATH) != 0)
 	{
-		strcat(windir, TEXT("\\winhlp32.exe"));
-		//wcscat(windir, TEXT("\\winhlp32.exe"));
+		//strcat(windir, TEXT("\\winhlp32.exe"));
+		wcscat(windir, L"\\winhlp32.exe");
 
 		HMODULE module = ::LoadLibrary(windir);
 		if (module)
@@ -371,14 +371,16 @@ HCURSOR LoadHandCursor()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* GetWndText(HWND hwnd)
-//wchar_t* GetWndText(HWND hwnd)
+std::string GetWndText(HWND hwnd)
 {
 	int len = ::GetWindowTextLength(hwnd);
-	//wchar_t* str = (wchar_t*) malloc(sizeof(wchar_t)*(len + 1));
-	char* str = (char*) malloc(len + 1);
+	wchar_t* str = (wchar_t*) malloc(sizeof(wchar_t)*(len + 1));
+	//char* str = (char*) malloc(len + 1);
 	::GetWindowText(hwnd, str, len + 1);
-	return str;
+
+	std::string rs = unicode_utils::utf16_to_utf8(str,NULL);
+	free(str);
+	return rs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -441,10 +443,11 @@ void CenterText(HDC hdc, int x, int w, int y, int h, const char* str, RECT* out)
 	ASSURE(str != NULL)
 
 	size_t len = strlen(str);
-	//size_t len = wcslen(str);
 
 	SIZE extent;
-	::GetTextExtentPoint32(hdc, str, len, &extent);
+	std::wstring win_str = unicode_utils::utf8_to_utf16(str,NULL);
+	::GetTextExtentPoint32(hdc, win_str.c_str(), win_str.length(), &extent);
+	//::GetTextExtentPoint32(hdc, str, len, &extent);
 
 	int dx, dy;
 
@@ -458,7 +461,8 @@ void CenterText(HDC hdc, int x, int w, int y, int h, const char* str, RECT* out)
 	else
 		dy = y;
 
-	::TextOut(hdc, dx, dy, str, len);
+	::TextOut(hdc, dx, dy, win_str.c_str(), win_str.length());
+	//::TextOut(hdc, dx, dy, str, len);
 
 	if (out != NULL)
 	{
@@ -486,71 +490,73 @@ bool StringEmpty(const char* string)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* FilePicker(
+//char* FilePicker(
+std::string FilePicker(
 	HWND hwnd, bool isSave, DWORD flags, const char* initial,
 	const char* title, const char* filter, const char* defaultExt)
 {
 	ASSURE(hwnd != NULL)
 
-	char* out = (char*) malloc(MAX_PATH + 1);
-	if (out != NULL)
-	{
-		if (initial != NULL)
-			_tcscpy(out, initial);
-		else
-			out[0] = '\0';
+	wchar_t out[MAX_PATH + 1];
+	out[0] = '\n';
 
-		OPENFILENAME ofn;
-		ofn.lStructSize       = sizeof(OPENFILENAME);
-		ofn.hwndOwner         = hwnd;
-		ofn.hInstance         = NULL;
-		ofn.lpstrFilter       = filter;
-		ofn.lpstrCustomFilter = NULL;
-		ofn.nMaxCustFilter    = 0;
-		ofn.nFilterIndex      = 0;
-		ofn.lpstrFile         = out;
-		ofn.nMaxFile          = MAX_PATH;
-		ofn.lpstrFileTitle    = NULL;
-		ofn.nMaxFileTitle     = MAX_PATH;
-		ofn.lpstrInitialDir   = NULL;
-		ofn.lpstrTitle        = title;
-		ofn.Flags             = flags;
-		ofn.nFileOffset       = 0;
-		ofn.nFileExtension    = 0;
-		ofn.lpstrDefExt       = defaultExt;
-		ofn.lCustData         = 0L;
-		ofn.lpfnHook          = NULL;
-		ofn.lpTemplateName    = NULL;
-
-		// If the initial file name is invalid, the dialog box returns right
-		// away without giving the user a chance to input a correct name. If
-		// that happens we simply try again, but now without an initial name.
-
-		bool res;
-		DWORD error;
-
-		do
-		{
-			if (isSave)
-				res = (::GetSaveFileName(&ofn) == TRUE);
-			else
-				res = (::GetOpenFileName(&ofn) == TRUE);
-
-			error = ::CommDlgExtendedError();
-
-			if (error == FNERR_INVALIDFILENAME)
-				ofn.lpstrFile[0] = '\0';
-		}
-		while ((res == false) && (error != 0));
-
-		if (!res)  // cancelled
-		{
-			free(out);
-			out = NULL;
-		}
+	if(initial != NULL){
+		std::wstring wstr = unicode_utils::utf8_to_utf16(initial, NULL);
+		wcsncpy(out, wstr.c_str(), wstr.length());
 	}
 
-	return out;
+	OPENFILENAME ofn;
+	ofn.lStructSize       = sizeof(OPENFILENAME);
+	ofn.hwndOwner         = hwnd;
+	ofn.hInstance         = NULL;
+	//ofn.lpstrFilter       = filter;
+	ofn.lpstrFilter       = unicode_utils::utf8_to_utf16(filter,NULL).c_str();
+	ofn.lpstrCustomFilter = NULL;
+	ofn.nMaxCustFilter    = 0;
+	ofn.nFilterIndex      = 0;
+	ofn.lpstrFile         = out; // We need this to hold the filename
+	ofn.nMaxFile          = MAX_PATH;
+	ofn.lpstrFileTitle    = NULL;
+	ofn.nMaxFileTitle     = MAX_PATH;
+	ofn.lpstrInitialDir   = NULL;
+	//ofn.lpstrTitle        = title;
+	ofn.lpstrTitle        = unicode_utils::utf8_to_utf16(title,NULL).c_str();
+	ofn.Flags             = flags;
+	ofn.nFileOffset       = 0;
+	ofn.nFileExtension    = 0;
+	//ofn.lpstrDefExt       = defaultExt;
+	ofn.lpstrDefExt       = unicode_utils::utf8_to_utf16(defaultExt,NULL).c_str();
+	ofn.lCustData         = 0L;
+	ofn.lpfnHook          = NULL;
+	ofn.lpTemplateName    = NULL;
+
+	// If the initial file name is invalid, the dialog box returns right
+	// away without giving the user a chance to input a correct name. If
+	// that happens we simply try again, but now without an initial name.
+
+	bool res;
+	DWORD error;
+
+	do
+	{
+		if (isSave)
+			res = (::GetSaveFileName(&ofn) == TRUE);
+		else
+			res = (::GetOpenFileName(&ofn) == TRUE);
+
+		error = ::CommDlgExtendedError();
+
+		if (error == FNERR_INVALIDFILENAME)
+			ofn.lpstrFile[0] = '\0';
+	}
+	while ((res == false) && (error != 0));
+
+	if(!res){
+		// dialog got cancelled
+		return "";
+	} else{
+		return unicode_utils::utf16_to_utf8(out, NULL);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -564,14 +570,20 @@ bool ChangeDir(const char* dir)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* GetCurrentDir()
+std::string GetCurrentDir()
 {
-	char* dir = (char*) malloc(MAX_PATH + 1);
-	if (dir != NULL)
-		//if (getcwd(dir, MAX_PATH) == NULL)
-		if(_getcwd(dir, MAX_PATH) == NULL)
-			_tcscpy(dir, "");
-	return dir;
+	char dir[MAX_PATH + 1];
+	if(_getcwd(dir, MAX_PATH) == NULL){
+		dir[0] = '\0';
+	}
+	return std::string(dir);
+
+	//char* dir = (char*) malloc(MAX_PATH + 1);
+	//if (dir != NULL)
+	//	//if (getcwd(dir, MAX_PATH) == NULL)
+	//	if(_getcwd(dir, MAX_PATH) == NULL)
+	//		_tcscpy(dir, "");
+	//return dir;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -596,7 +608,8 @@ char* GetInstallDir(const char* registryKey)
 
 void OpenUrl(const char* url)
 {
-	::ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOW);
+	//::ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOW);
+	::ShellExecute(NULL, L"open", unicode_utils::utf8_to_utf16(url,NULL).c_str(), NULL, NULL, SW_SHOW);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

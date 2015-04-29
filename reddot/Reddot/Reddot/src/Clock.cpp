@@ -34,7 +34,7 @@ void Clock::SetTime(uint32 millis)
 
 	char buf[32];
 	sprintf(buf, "%02d:%02d", mins, secs);
-	::SetWindowText(hwnd, buf);
+	::SetWindowText(hwnd, unicode_utils::utf8_to_utf16(buf,NULL).c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ void Clock::Blink()
 	blink = !blink;
 
 	if (blink)
-		::SetWindowText(hwnd, "---");
+		::SetWindowText(hwnd, L"---");
 	else
-		::SetWindowText(hwnd, "");
+		::SetWindowText(hwnd, L"");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,11 +58,11 @@ void Clock::SetState(int state_)
 	switch (state)
 	{
 		case CLOCK_INACTIVE:
-			::SetWindowText(hwnd, "---");
+			::SetWindowText(hwnd, L"---");
 			break;
 
 		case CLOCK_WAITING:
-			::SetWindowText(hwnd, "");
+			::SetWindowText(hwnd, L"");
 			blink = false;
 			break;
 

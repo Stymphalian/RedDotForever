@@ -4,8 +4,10 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <string>
 #include "resource.h"
 #include "bugsbgone.h"
+#include "unicode_utils.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -168,7 +170,8 @@ HFONT DeriveFont(HFONT origFont, bool bold, bool underline, int newSize);
 HCURSOR LoadHandCursor();
 
 //wchar_t* GetWndText(HWND hwnd);
-char* GetWndText(HWND hwnd);
+std::string GetWndText(HWND hand);
+// char* GetWndText(HWND hwnd);
 
 void ScreenToClient(HWND hwnd, LPRECT rect);
 
@@ -191,13 +194,12 @@ bool StringEmpty(const char* string);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* FilePicker(
+std::string FilePicker(
 	HWND hwnd, bool isSave, DWORD flags, const char* initial,
 	const char* title, const char* filter, const char* defaultExt);
 
 bool ChangeDir(const char* dir);
-char* GetCurrentDir();
-char* GetInstallDir(const char* registryKey);
+std::string GetCurrentDir();
 
 void OpenUrl(const char* url);
 

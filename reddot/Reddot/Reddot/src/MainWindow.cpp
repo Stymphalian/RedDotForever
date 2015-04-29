@@ -249,17 +249,23 @@ void MainWindow::OnStop()
 
 void MainWindow::OnSave()
 {
-	char* filename = FilePicker(
+	/*char* filename = FilePicker(
+		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "", NULL,
+		"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0", "mid");*/
+
+	std::string filename = FilePicker(
 		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "", NULL,
 		"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0", "mid");
 
-	if (filename != NULL)
+
+	//if (filename != NULL)
+	if (!filename.empty())
 	{
 		MidiWriter writer;
-		if (!writer.WriteMidiFile(&events, filename))
-			::MessageBox(hwnd, TEXT("Could not create MIDI file."), NULL, MB_OK | MB_ICONSTOP);
+		if (!writer.WriteMidiFile(&events, filename.c_str()))
+			::MessageBox(hwnd, L"Could not create MIDI file.", NULL, MB_OK | MB_ICONSTOP);
 
-		free(filename);
+		//free(filename);
 
 		store = STORE_SAVED;
 		UpdateControls();
@@ -289,6 +295,12 @@ void MainWindow::OnOptions()
 
 void MainWindow::OnHelp()
 {
+	std::string dir = GetCurrentDir();
+	if(dir.length()  != 0){
+		char url[MAX_PATH + 1];
+		sprintf(url, "file://%s/%s", dir, MANUAL_PATH);
+		OpenUrl(url);
+	}
 	// char* dir = GetInstallDir(REGISTRY_KEY);
 	// if (dir != NULL)
 	// {
