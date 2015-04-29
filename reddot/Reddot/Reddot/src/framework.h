@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <string>
+#include <vector>
 #include "resource.h"
 #include "bugsbgone.h"
 #include "unicode_utils.h"
@@ -195,8 +196,11 @@ bool StringEmpty(const char* string);
 ////////////////////////////////////////////////////////////////////////////////
 
 std::string FilePicker(
-	HWND hwnd, bool isSave, DWORD flags, const char* initial,
-	const char* title, const char* filter, const char* defaultExt);
+	HWND hwnd, bool isSave, DWORD flags,
+	const char* initial,
+	const char* title,
+	const wchar_t* filter,
+	const char* defaultExt);
 
 bool ChangeDir(const char* dir);
 std::string GetCurrentDir();

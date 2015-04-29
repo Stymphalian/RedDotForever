@@ -492,25 +492,29 @@ bool StringEmpty(const char* string)
 
 //char* FilePicker(
 std::string FilePicker(
-	HWND hwnd, bool isSave, DWORD flags, const char* initial,
-	const char* title, const char* filter, const char* defaultExt)
+	HWND hwnd, bool isSave, DWORD flags,
+	const char* initial,
+	const char* title,
+	const wchar_t* filter, // TODO: Fix this HACK so that Unicode/UTF-8 always work
+	const char* defaultExt)
 {
 	ASSURE(hwnd != NULL)
 
 	wchar_t out[MAX_PATH + 1];
-	out[0] = '\n';
+	out[0] = '\0';
 
 	if(initial != NULL){
 		std::wstring wstr = unicode_utils::utf8_to_utf16(initial, NULL);
-		wcsncpy(out, wstr.c_str(), wstr.length());
+		wcsncpy(out, wstr.c_str(), MAX_PATH + 1);
 	}
+
 
 	OPENFILENAME ofn;
 	ofn.lStructSize       = sizeof(OPENFILENAME);
 	ofn.hwndOwner         = hwnd;
 	ofn.hInstance         = NULL;
 	//ofn.lpstrFilter       = filter;
-	ofn.lpstrFilter       = unicode_utils::utf8_to_utf16(filter,NULL).c_str();
+	ofn.lpstrFilter       = filter;
 	ofn.lpstrCustomFilter = NULL;
 	ofn.nMaxCustFilter    = 0;
 	ofn.nFilterIndex      = 0;
@@ -520,12 +524,12 @@ std::string FilePicker(
 	ofn.nMaxFileTitle     = MAX_PATH;
 	ofn.lpstrInitialDir   = NULL;
 	//ofn.lpstrTitle        = title;
-	ofn.lpstrTitle        = unicode_utils::utf8_to_utf16(title,NULL).c_str();
+	ofn.lpstrTitle        = (title == NULL) ? NULL : unicode_utils::utf8_to_utf16(title,NULL).c_str();
 	ofn.Flags             = flags;
 	ofn.nFileOffset       = 0;
 	ofn.nFileExtension    = 0;
 	//ofn.lpstrDefExt       = defaultExt;
-	ofn.lpstrDefExt       = unicode_utils::utf8_to_utf16(defaultExt,NULL).c_str();
+	ofn.lpstrDefExt       = (defaultExt == NULL) ? NULL : unicode_utils::utf8_to_utf16(defaultExt,NULL).c_str();
 	ofn.lCustData         = 0L;
 	ofn.lpfnHook          = NULL;
 	ofn.lpTemplateName    = NULL;

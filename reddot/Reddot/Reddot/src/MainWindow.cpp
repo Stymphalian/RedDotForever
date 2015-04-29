@@ -253,9 +253,10 @@ void MainWindow::OnSave()
 		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "", NULL,
 		"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0", "mid");*/
 
+	// TODO: Get rid of this hack which creates s UTF-16 filter string
 	std::string filename = FilePicker(
 		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "", NULL,
-		"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0", "mid");
+		L"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0","mid");
 
 
 	//if (filename != NULL)
