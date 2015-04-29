@@ -289,14 +289,14 @@ void MainWindow::OnOptions()
 
 void MainWindow::OnHelp()
 {
-	char* dir = GetInstallDir(REGISTRY_KEY);
-	if (dir != NULL)
-	{
-		char url[MAX_PATH + 1];
-		sprintf(url, "file://%s/%s", dir, MANUAL_PATH);
-		OpenUrl(url);
-		free(dir);
-	}
+	// char* dir = GetInstallDir(REGISTRY_KEY);
+	// if (dir != NULL)
+	// {
+	// 	char url[MAX_PATH + 1];
+	// 	sprintf(url, "file://%s/%s", dir, MANUAL_PATH);
+	// 	OpenUrl(url);
+	// 	free(dir);
+	// }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

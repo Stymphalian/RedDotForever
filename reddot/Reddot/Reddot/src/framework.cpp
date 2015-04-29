@@ -300,24 +300,42 @@ void MemDC::End()
 
 HFONT DeriveFont(HFONT origFont, bool bold, bool underline, int newSize)
 {
-	if (origFont == NULL)
-		origFont = (HFONT) ::GetStockObject(DEFAULT_GUI_FONT);
-
+	// object to hold the font.
 	LOGFONT logfont;
-	::GetObject(origFont, sizeof(LOGFONT), &logfont);
+
+	if (origFont == NULL){
+		NONCLIENTMETRICS resultMetrics;
+		resultMetrics.cbSize = sizeof(NONCLIENTMETRICS);
+		BOOL rs = ::SystemParametersInfo(
+			SPI_GETNONCLIENTMETRICS,	// property we want to retrive
+			sizeof(NONCLIENTMETRICS),  // the size of the structure we are putting data into
+			(PVOID)(&resultMetrics),   // a pointer to the structure to place the data
+			0						   // flag to say we are not setting any data, only read.
+		);
+
+		ASSURE(rs == TRUE);
+		logfont = resultMetrics.lfMessageFont;
+		// origFont = (HFONT) ::GetStockObject(DEFAULT_GUI_FONT);
+	}else{
+		// User has supplied an HFONT object.. so use that to get the font
+		::GetObject(origFont, sizeof(LOGFONT), &logfont);
+	}
 
 	if (newSize != -1)
 	{
+		// user has requested the size of the font to be bigger..
 		HDC hdc = ::GetDC(NULL);
 		logfont.lfHeight = -MulDiv(newSize, ::GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		::ReleaseDC(NULL, hdc);
 	}
 
-	if (bold)
+	if (bold){
 		logfont.lfWeight = FW_BOLD;
+	}
 
-	if (underline)
+	if (underline){
 		logfont.lfUnderline = (BYTE) TRUE;
+	}
 
 	return ::CreateFontIndirect(&logfont);
 }
@@ -468,91 +486,6 @@ bool StringEmpty(const char* string)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* ReadRegistryString(HKEY key, const char* subkey, const char* name)
-{
-	HKEY handle;
-	LONG res = ::RegOpenKeyEx(key, subkey, 0, KEY_QUERY_VALUE, &handle);
-	if (res != ERROR_SUCCESS)
-		return false;
-
-	char* str = NULL;
-	DWORD size = 1;
-	LONG result = ::RegQueryValueEx(handle, name, NULL, NULL, NULL, &size);
-	if (result == ERROR_SUCCESS)
-	{
-		str = (char*) malloc(size);
-		DWORD type = REG_SZ;
-		res = ::RegQueryValueEx(
-			handle, name, NULL, &type, (LPBYTE) str, (DWORD*) &size);
-
-		if (res != ERROR_SUCCESS)
-		{
-			free(str);
-			str = NULL;
-		}
-	}
-
-	::RegCloseKey(handle);
-	return str;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WriteRegistryString(HKEY key, const char* subkey, const char* name, const char* str)
-{
-	HKEY handle;
-	DWORD disposition;
-	LONG res = ::RegCreateKeyEx(
-		key, subkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL,
-		&handle, &disposition);
-
-	if (res == ERROR_SUCCESS)
-	{
-		::RegSetValueEx(handle, name, 0, REG_SZ, (LPBYTE) str, strlen(str) + 1);
-		::RegCloseKey(handle);
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-int ReadRegistryInt(HKEY key, const char* subkey, const char* name, int def)
-{
-	HKEY handle;
-	LONG res = ::RegOpenKeyEx(key, subkey, 0, KEY_QUERY_VALUE, &handle);
-	if (res != ERROR_SUCCESS)
-		return false;
-
-	DWORD value;
-	DWORD size = sizeof(value);
-	DWORD type = REG_DWORD;
-	res = ::RegQueryValueEx(handle, name, NULL, &type, (LPBYTE) &value, &size);
-	::RegCloseKey(handle);
-
-	if (res == ERROR_SUCCESS)
-		return (int) value;
-	else
-		return def;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WriteRegistryInt(HKEY key, const char* subkey, const char* name, int value)
-{
-	HKEY handle;
-	DWORD disposition;
-	LONG res = ::RegCreateKeyEx(
-		key, subkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL,
-		&handle, &disposition);
-
-	if (res == ERROR_SUCCESS)
-	{
-		::RegSetValueEx(handle, name, 0, REG_DWORD, (LPBYTE) &value, sizeof(value));
-		::RegCloseKey(handle);
-	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 char* FilePicker(
 	HWND hwnd, bool isSave, DWORD flags, const char* initial,
 	const char* title, const char* filter, const char* defaultExt)
@@ -645,17 +578,18 @@ char* GetCurrentDir()
 
 char* GetInstallDir(const char* registryKey)
 {
-	char* dir;
-
-	dir = ReadRegistryString(HKEY_LOCAL_MACHINE, registryKey, "InstallDir");
-	if ((dir != NULL) && !StringEmpty(dir)) { return dir; }
-	free(dir);
-
-	dir = ReadRegistryString(HKEY_CURRENT_USER, registryKey, "InstallDir");
-	if ((dir != NULL) && !StringEmpty(dir)) { return dir; }
-	free(dir);
-
 	return NULL;
+	// char* dir;
+
+	// dir = ReadRegistryString(HKEY_LOCAL_MACHINE, registryKey, "InstallDir");
+	// if ((dir != NULL) && !StringEmpty(dir)) { return dir; }
+	// free(dir);
+
+	// dir = ReadRegistryString(HKEY_CURRENT_USER, registryKey, "InstallDir");
+	// if ((dir != NULL) && !StringEmpty(dir)) { return dir; }
+	// free(dir);
+
+	// return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -63,19 +63,6 @@ void Settings::Load()
    triggerValue[TRIGGER_PLAY]     = _iniReader.GetInt( SETTING_TRIGGER_PLAY_VALUE   ,"", 0);
    triggerStatus[TRIGGER_STOP]    = _iniReader.GetInt( SETTING_TRIGGER_STOP_STATUS  ,"",-1);
    triggerValue[TRIGGER_STOP]     = _iniReader.GetInt( SETTING_TRIGGER_STOP_VALUE   ,"", 0);
-
-   // inDev = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_INPUT_DEV, 0);
-   // outDev = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_OUTPUT_DEV, 0);
-   // echoInput = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_ECHO_INPUT, 0) != 0;
-   // ignoreKeyPressure = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_KEY_PRESSURE, 1) != 0;
-   // ignoreChannelPressure = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_CHANNEL_PRESSURE, 1) != 0;
-   // ignoreProgramChange = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_PROGRAM_CHANGE, 0) != 0;
-   // triggerStatus[TRIGGER_RECORD] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_RECORD_STATUS, -1);
-   // triggerValue[TRIGGER_RECORD] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_RECORD_VALUE, 0);
-   // triggerStatus[TRIGGER_PLAY] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_PLAY_STATUS, -1);
-   // triggerValue[TRIGGER_PLAY] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_PLAY_VALUE, 0);
-   // triggerStatus[TRIGGER_STOP] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_STOP_STATUS, -1);
-   // triggerValue[TRIGGER_STOP] = ReadRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_STOP_VALUE, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,20 +87,7 @@ void Settings::Save()
 
 	 if(_iniReader.Save(SETTING_FILENAME) == false){
 		 //TODO: Error handling
-	 }
-
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_INPUT_DEV, inDev);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_OUTPUT_DEV, outDev);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_ECHO_INPUT, echoInput ? 1 : 0);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_KEY_PRESSURE, ignoreKeyPressure ? 1 : 0);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_CHANNEL_PRESSURE, ignoreChannelPressure ? 1 : 0);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_IGNORE_PROGRAM_CHANGE, ignoreProgramChange ? 1 : 0);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_RECORD_STATUS, triggerStatus[TRIGGER_RECORD]);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_RECORD_VALUE, triggerValue[TRIGGER_RECORD]);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_PLAY_STATUS, triggerStatus[TRIGGER_PLAY]);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_PLAY_VALUE, triggerValue[TRIGGER_PLAY]);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_STOP_STATUS, triggerStatus[TRIGGER_STOP]);
-   // WriteRegistryInt(HKEY_CURRENT_USER, REGISTRY_KEY, SETTING_TRIGGER_STOP_VALUE, triggerValue[TRIGGER_STOP]);
+	 }   
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -191,14 +191,6 @@ bool StringEmpty(const char* string);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-char* ReadRegistryString(HKEY key, const char* subkey, const char* name);
-void WriteRegistryString(HKEY key, const char* subkey, const char* name, const char* str);
-
-int ReadRegistryInt(HKEY key, const char* subkey, const char* name, int def);
-void WriteRegistryInt(HKEY key, const char* subkey, const char* name, int value);
-
-////////////////////////////////////////////////////////////////////////////////
-
 char* FilePicker(
 	HWND hwnd, bool isSave, DWORD flags, const char* initial,
 	const char* title, const char* filter, const char* defaultExt);
