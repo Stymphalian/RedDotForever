@@ -40,6 +40,11 @@ For version 1.04.1, 25-april-2015
 	with these other users.
 
 # CHANGE LIST:
+_28-april-2015_
+
+-	Converted application for mostly unicode/utf-8 support
+-	Got rid of using the Windows registry.Now uses a settings.ini file.
+
 _25-april-2015_
 
 - 	Added Unicode/UTF-8 support?
