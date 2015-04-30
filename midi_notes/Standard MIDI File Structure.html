@@ -1,0 +1,223 @@
+
+<!-- saved from url=(0045)http://www.ccarh.org/courses/253/handout/smf/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> Standard MIDI File Structure </title>
+</head><body alink="#000088" link="#0000dd" vlink="#770000" bgcolor="#ffffff"><owner_name="craig stuart="" sapp="" (craig@ccrma.stanford.edu)"="">
+<creation_date="fri apr="" 12="" 00:33:09="" pdt="" 1996"="">
+<last_modified="fri apr="" 12="" 00:33:24="" pdt="" 1996"="">
+
+<!---------------------------------------------------------------------------->
+
+
+
+<center> <h1> Outline of the Standard MIDI File Structure </h1> </center>
+
+Go to: [
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#header_chunk">header chunk</a> |
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#track_chunk">track chunk</a> |
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#track_event">track event</a> |
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#meta_event">meta event</a> |
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#sysex_event">system exclusive event</a> |
+   <a href="http://www.ccarh.org/courses/253/handout/smf/#variable_length">variable length values</a> ]
+
+<hr width="100%" noshade="" size="6">
+
+<p>
+
+A standard MIDI file is composed of "chunks".  It starts with a header
+chunk and is followed by one or more track chunks.  The header chunk
+contains data that pertains to the overall file.  Each track chunk
+defines a logical track.
+</p><pre> <font color="blue">
+   SMF = &lt;header_chunk&gt; + &lt;track_chunk&gt; [+ &lt;track_chunk&gt; ...]
+</font></pre>
+
+<p> A chunk always has three components, similar to Microsoft RIFF files
+    (the only difference is that SMF files are big-endian, while RIFF
+    files are usually little-endian).  The three parts to each chunk
+    are:
+   </p><ol>
+   <li> The track ID string which is four charcters long.  For
+        example, header chunk IDs are "<tt>MThd</tt>", and Track chunk IDs are 
+        "<tt>MTrk</tt>".
+   </li><li> next is a four-byte unsigned value that specifies the number
+        of bytes in the data section of the track (part 3).
+   </li><li> finally comes the data section of the chunk.  The size of the 
+        data is specified in the length field which follows the 
+        chunk ID (part 2).
+   </li></ol>
+
+
+<hr width="100%" noshade="">
+<a name="header_chunk"> <h2> Header Chunk </h2> </a>
+
+<ul>
+The header chunk consists of a literal string denoting the header, a
+length indicator, the format of the MIDI file, the number of tracks in
+the file, and a timing value specifying delta time units.  Numbers
+larger than one byte are placed most significant byte first.
+<pre> <font color="blue">
+   header_chunk = "MThd" + &lt;header_length&gt; + &lt;format&gt; + &lt;n&gt; + &lt;division&gt;
+</font> </pre>
+
+<dl>
+<dt> <b><tt> "MThd" </tt></b> 4 bytes
+</dt><dd> the literal string MThd, or in hexadecimal notation: 0x4d546864. 
+     These four characters at the start of the MIDI file indicate that
+     this <em>is</em> a MIDI file.
+
+</dd><dt> <b><tt>&lt;header_length&gt;</tt></b> 4 bytes
+</dt><dd> length of the header chunk (always 6 bytes long--the size
+     of the next three fields which are considered the header chunk).
+
+</dd><dt> <b><tt>&lt;format&gt;</tt></b> 2 bytes
+</dt><dd>   <b>0</b> = single track file format <br>
+   <b>1</b> = multiple track file format <br>
+   <b>2</b> = multiple song file format  (<i>i.e.</i>, a series of type 0 files)
+
+</dd><dt> <b><tt>&lt;n&gt;</tt></b> 2 bytes
+</dt><dd> number of track chunks that follow the header chunk
+
+</dd><dt> <b><tt>&lt;division&gt;</tt></b> 2 bytes
+</dt><dd>   unit of time for delta timing.  If the value is positive, then it
+   represents the units per beat.  For example, +96 would mean 96
+   ticks per beat.  If the value is negative, delta times are in SMPTE
+   compatible units.
+</dd></dl>
+</ul>
+
+<hr noshade="">
+<a name="track_chunk"> <h2> Track Chunk </h2> </a>
+
+<ul>
+A track chunk consists of a literal identifier string, a length
+indicator specifying the size of the track, and actual event data
+making up the track.
+<pre> <font color="blue">
+   track_chunk = "MTrk" + &lt;length&gt; + &lt;track_event&gt; [+ &lt;track_event&gt; ...]
+</font> </pre>
+
+<dl>
+<dt> <b><tt>"MTrk"</tt></b> 4 bytes
+</dt><dd>   the literal string MTrk. This marks the beginning of a track.
+
+</dd><dt>  <b><tt>&lt;length&gt;</tt></b> 4 bytes
+</dt><dd>   the number of bytes in the track chunk following this number.
+
+</dd><dt> <b><tt>&lt;track_event&gt;</tt></b> 
+</dt><dd>   a sequenced track event.
+</dd></dl>
+
+<a name="track_event"> <h2> Track Event </h2> </a>
+
+A track event consists of a delta time since the last event, and one
+of three types of events.
+<pre> <font color="blue">
+   track_event = &lt;v_time&gt; + &lt;midi_event&gt; | &lt;meta_event&gt; | &lt;sysex_event&gt;
+</font> </pre>
+
+<dl>
+<dt> <b><tt>&lt;v_time&gt;</tt></b> 
+</dt><dd>   a variable length value specifying the elapsed time (delta time)
+   from the previous event to this event.
+
+</dd><dt> <b><tt>&lt;midi_event&gt;</tt></b> 
+</dt><dd> any MIDI channel message such as note-on or note-off.  Running
+   status is used in the same manner as it is used between MIDI
+   devices.
+
+</dd><dt> <b><tt>&lt;meta_event&gt;</tt></b> 
+</dt><dd>   an SMF meta event.
+
+</dd><dt> <b><tt>&lt;sysex_event&gt;</tt></b> 
+</dt><dd>   an SMF system exclusive event.
+</dd></dl>
+
+<a name="meta_event"> <h2> Meta Event </h2> </a>
+
+Meta events are non-MIDI data of various sorts consisting of a fixed
+prefix, type indicator, a length field, and actual event data..
+<pre> <font color="blue">
+   meta_event = 0xFF + &lt;meta_type&gt; + &lt;v_length&gt; + &lt;event_data_bytes&gt;
+</font> </pre>
+
+<dl>
+<dt> <b><tt> &lt;meta_type&gt;</tt></b> 1 byte
+</dt><dd>   meta event types: 
+   <center>
+   <table cellpadding="0">
+      <tbody><tr><td width="80"><b>Type</b>    </td><td width="180"><b>Event</b>
+          </td><td width="80"><b>Type</b>    </td><td><b>Event</b>
+      </td></tr><tr><td> 0x00         </td><td> Sequence number  
+          </td><td> 0x20         </td><td> MIDI channel prefix assignment
+      </td></tr><tr><td> 0x01         </td><td> Text event  
+          </td><td> 0x2F         </td><td> End of track
+      </td></tr><tr><td> 0x02         </td><td> Copyright notice
+          </td><td> 0x51         </td><td> Tempo setting
+      </td></tr><tr><td> 0x03         </td><td> Sequence or track name
+          </td><td> 0x54         </td><td> SMPTE offset
+      </td></tr><tr><td> 0x04         </td><td> Instrument name
+          </td><td> 0x58         </td><td> Time signature
+      </td></tr><tr><td> 0x05         </td><td> Lyric text
+          </td><td> 0x59         </td><td> Key signature
+      </td></tr><tr><td> 0x06         </td><td> Marker text
+          </td><td> 0x7F         </td><td> Sequencer specific event
+      </td></tr><tr><td> 0x07         </td><td> Cue point
+   </td></tr></tbody></table>
+   </center>
+
+</dd><dt> <b><tt>&lt;v_length&gt;</tt></b> 
+</dt><dd>   length of meta event data expressed as a variable length value.
+
+</dd><dt> <b><tt>&lt;event_data_bytes&gt;</tt></b> 
+</dt><dd>   the actual event data.
+</dd></dl>
+
+
+<a name="sysex_event"> <h2> System Exclusive Event </h2> </a>
+
+A system exclusive event can take one of two forms:
+
+<p>
+<tt> <font color="blue"> sysex_event = 0xF0 + &lt;data_bytes&gt; 0xF7 
+</font> </tt>
+or
+<tt> <font color="blue"> sysex_event = 0xF7 + &lt;data_bytes&gt; 0xF7
+</font> </tt>
+
+</p><p>
+In the first case, the resultant MIDI data stream would include the
+0xF0.  In the second case the 0xF0 is omitted.
+</p></ul>
+
+<hr width="100%" noshade="">
+<a name="variable_length"> <h2> Variable Length Values </h2> </a>
+
+Several different values in SMF events are expressed as variable
+length quantities (e.g. delta time values).  A variable length value
+uses a minimum number of bytes to hold the value, and in most
+circumstances this leads to some degree of data compresssion.
+
+<p>
+A variable length value uses the low order 7 bits of a byte to
+represent the value or part of the value.  The high order bit is an
+"escape" or "continuation" bit.  All but the last byte of a variable
+length value have the high order bit set.  The last byte has the high
+order bit cleared.  The bytes always appear most significant byte
+first.
+
+</p><p>
+Here are some examples: </p><pre>   <b>Variable length              Real value</b>
+   0x7F                         127 (0x7F)
+   0x81 0x7F                    255 (0xFF)
+   0x82 0x80 0x00               32768 (0x8000)
+</pre>
+
+<pre></pre>
+<center> <hr width="100%" noshade="" size="4"> </center>
+
+<address> craig@ccrma.stanford.edu </address>
+
+
+
+</last_modified="fri></creation_date="fri></owner_name="craig></body></html>

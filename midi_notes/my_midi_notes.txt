@@ -1,0 +1,217 @@
+My notes for the MIDI file format.
+Good resources which may help you better understand:
+    http://www.ccarh.org/courses/253/handout/smf/
+    http://www.music.mcgill.ca/~ich/classes/mumt306/midiformat.pdf
+    http://cs.fit.edu/~ryan/cse4051/projects/midi/midi.html
+
+
+MIDI FORMAT
+
+<HEADER>
+HEADER_DATA
+TRACK_HEADER
+TRACK_DATA
+...
+TRACK_HEADER
+TRACK_DATA
+
+
+<HEADER>  = <HEADER_CHUNK_TYPE> + <HEADER_LENGTH>
+    <HEADER_CHUNK_TYPE> (4B)
+        Must have value'MThd'
+    <HEADER_LENTGH> (4B) -
+        Must have value 6
+
+<HEADER_DATA> = <FORMAT> + <NUM_TRACKS> + <DIVISION>
+    <FORMAT> (2B)
+        0 - the file contains a single multi-channel track
+        1 - the file contains one or more simulatneous tracks
+        2 - the file contains one or more sequential indenependant single-track patterns
+    <NUM_TRACKS> (2B)
+    <DIVISION> (2B)
+        denotes the meaning of delta time.
+        +---+-----------------------------------------+
+        | 0 |   Ticks per quarter note                |
+        +---+-----------------------------------------+
+        | 1 | Negative SMPTE format | ticks per frame |
+        +---+-----------------------------------------+
+        SMPTE format  [-24 |-25 |-29 | -30]
+
+<TRACK_HEADER> = <TRACK_CHUNK_TYPE> + <TRACK_LENGTH>
+    <TRACK_CHUNK_TYPE> (4B)
+        The literal string "MTrk". Marks the beginning of the track
+    <TRACK_LENGTH> (4B)
+        The number of bytes in the following TRACK_DATA
+
+<TRACK_DATA> = <TRACK_EVENT> + <TRACK_EVENT>*
+    Must have atleast one track event
+
+<TRACK_EVENT> = <DELTA_TIME> + <EVENT>
+    <DELTA_TIME> (variable length)
+        Amount of time before the following event.
+        The units of delta time are specified by the DIVISION paramter
+        which was set in the HEADER.
+
+<EVENT> = <MIDI_EVENT> | <META_EVENT> | <SYSEX_EVENT>
+
+<MIDI_EVENT> (3B?)
+    Any MIDI channel message. The file format uses running-state
+    (i.e. the state stays on until requested off)
+
+<META_EVENT> = 0xFF + <TYPE> + <LENGTH> + <DATA>
+    <TYPE> (1B)
+    <LENGTH> (variable length)
+    <DATA>
+
+    00 - Seqeuce Number
+    01 - Text Event
+    02 - Copyright Notice
+    03 - Sequence/Track Name
+    04 - Instrument Name
+    05 - Lyric
+    06 - Marker
+            Marks a significant point in the sequence
+    07 - Cue Point
+            Uses to include cues for event happening on-stage
+    20 - MIDI channel prefix
+            Associates all the following meta-event/sys-ex events with
+            the supplied channel
+    2F - End of Track
+    51 - Set Tempo
+            Sets the tempo in microseconds per quarter note.
+            If not specified, default tepm is 120beats/minutes
+    54 - SMPTE Offset
+    58 - Time Signature
+    59 - Key Signature
+    7F - Sequence-Specific Meta Event
+
+<SYSEX_EVENT> = <TYPE> + <LENGTH> + <SYSEX_DATA>
+    <TYPE> (1B)
+        [0xF0 | 0xF7]
+    <LENGTH> (variable length)
+    <SYSEX_DATA>
+        sent as a MIDI message?
+        F7 at the end of the data??
+
+
+** More detail about META_EVENT types + data required
+    The basic format is  <type>(1B) <len> <data>
+    00 02 ss ss- Seqeuce Number
+        Optional event which must occur only at the start of track, before any
+        zero delta times.
+        ss ss - sequence number using 2 Bytes
+
+    01 <len> <text- Text Event
+        <len> (variable length)
+            the length of the text to follow
+        <text>
+            ascii (1B) representation of the text
+
+    02 <len> <text> - Copyright Notice
+        <len>(variable length)
+            Length of the copyright text
+        <text>
+            ascii string of the text. should be in the form
+            "(C) 1850 J.Strauss"
+
+    03 <len> <text> - Sequence/Track Name
+        <len>(variable length)
+            Length of the string
+        <text>
+            ascii string
+
+    04 <len> <text>- Instrument Name
+        Desription of the instruments to be used on the track.
+        Can also be used to annotate the instrument used on a specific channel.
+        <len>(variable length)
+            length of the string
+        <text>
+            ascii string
+
+    05 <len> <text> - Lyric
+        Lyric for a song. Normally each sllable wll have its own
+        lyric event.
+        <len> (variblee length)
+            Length of the string
+        <text>
+            ascii string
+
+
+    06 <len> <text> - Marker
+        Marks a significant point in the sequence (eg "Verse 1")
+        <len> (variable length)
+            Length of the string
+        <text>
+            ascii string
+
+    07 <len> <text> - Cue Point
+        Uses to include cues for event happening on-stage
+        <len> (variable length)
+            Length of the string
+        <text>
+            ascii string
+
+    20 01 cc - MIDI channel prefix
+        Associates all the following meta-event/sys-ex events with
+        the supplied channel
+        cc (1B)
+            Midi channel 1- 16 (0x00 - 0xFF)
+
+    2F 00 - End of Track
+        Denotes the end of the track.
+        This is NOT optional.
+
+    51 03 tt tt tt - Set Tempo
+        Sets the tempo in microseconds per quarter note.
+        If not specified, default tepm is 120 beats/minutes
+
+        tt tt tt (3B)
+            New tempo in microseconds/quarter-note
+
+    54 05 hh mm ss fr ff - SMPTE Offset
+        Please look up the appropriate docs. I don't really understand this
+        part of it.
+
+    58 04 nn dd cc bb- Time Signature
+        Time signature in the form nn/(2^dd)
+        nn (1B)
+            the numerator of the time signature
+        dd (1B)
+            denominator of the time signature
+            describes as a power of 2.
+        cc (1B)
+            MIDI clocks per metronome tick
+        bb (1B)
+            Number of 1/32 notes pre 24 MIDI clocks (  8 is standar)
+
+    59 02 sf mi - Key Signature
+        sf (1B)
+            Number of sharps or flats
+            -7 denotes 7 flats
+            0 = key of C
+            +7 denotes 7 sharps
+        mi
+            0 = major Key
+            1 = minor key
+
+    7F <len> <id> <data> - Sequence-Specific Meta Event
+        MIDI file equilvalent of System exclusive messages.
+        <len>(variable length)
+            length of both the <id> and <data> sections in bytes
+        <id> (1-3B)
+            1 or 3 bytes used to represent the Manufacturur ID
+        <data>
+            8-bit binary data.
+
+
+
+** Note MIDI has a 'variable length' data size
+    BYTE1 - 8th bit is set to 1
+    BYTE2 - 8th bit is set to 1
+    ...
+    BYTE<N> - 8th bit is set to 0
+    The last bit has a 0 set in order to denote that the sequence has ended.
+
+** High bytes are written first.
+    Therefore in order to encode 0x0034
+    you would write out 0x4300
