@@ -49,4 +49,8 @@ _28-april-2015_
 
 _25-april-2015_  
 -   Added Unicode/UTF-8 support?  
--   Started writing tests. Using ("Catch")[https://github.com/philsquared/Catch] framework  
+-   Started writing tests.
+
+
+## Bugs
+-   Settings.ini gets saved where the last midi file was saved.

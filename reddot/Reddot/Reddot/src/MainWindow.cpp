@@ -187,6 +187,7 @@ void MainWindow::OnDestroy()
 			break;
 	}
 
+	trace(__FILEW__, __LINE__,L"%s",unicode_utils::utf8_to_utf16( GetCurrentDir(),NULL).c_str());
 	settings.Save();
 	CloseMidi();
 }
@@ -255,19 +256,16 @@ void MainWindow::OnSave()
 
 	// TODO: Get rid of this hack which creates s UTF-16 filter string
 	std::string filename = FilePicker(
-		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "", NULL,
+		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, "", NULL,
 		L"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0","mid");
 
 
-	//if (filename != NULL)
 	if (!filename.empty())
-	{
+	{		
 		MidiWriter writer;
 		if (!writer.WriteMidiFile(&events, filename.c_str()))
 			::MessageBox(hwnd, L"Could not create MIDI file.", NULL, MB_OK | MB_ICONSTOP);
-
-		//free(filename);
-
+		
 		store = STORE_SAVED;
 		UpdateControls();
 	}
@@ -277,7 +275,7 @@ void MainWindow::OnSave()
 
 void MainWindow::OnEdit()
 {
-	::MessageBox(hwnd, TEXT("This feature is not available yet."), NULL, MB_OK | MB_ICONINFORMATION);
+	::MessageBox(hwnd, L"This feature is not available yet.", NULL, MB_OK | MB_ICONINFORMATION);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,14 +300,6 @@ void MainWindow::OnHelp()
 		sprintf(url, "file://%s/%s", dir, MANUAL_PATH);
 		OpenUrl(url);
 	}
-	// char* dir = GetInstallDir(REGISTRY_KEY);
-	// if (dir != NULL)
-	// {
-	// 	char url[MAX_PATH + 1];
-	// 	sprintf(url, "file://%s/%s", dir, MANUAL_PATH);
-	// 	OpenUrl(url);
-	// 	free(dir);
-	// }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

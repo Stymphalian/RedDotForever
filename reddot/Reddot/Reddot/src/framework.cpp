@@ -581,13 +581,6 @@ std::string GetCurrentDir()
 		dir[0] = '\0';
 	}
 	return std::string(dir);
-
-	//char* dir = (char*) malloc(MAX_PATH + 1);
-	//if (dir != NULL)
-	//	//if (getcwd(dir, MAX_PATH) == NULL)
-	//	if(_getcwd(dir, MAX_PATH) == NULL)
-	//		_tcscpy(dir, "");
-	//return dir;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
