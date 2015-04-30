@@ -65,21 +65,41 @@ void MidiWriter::WriteByte(uint8 val)
 
 void MidiWriter::WriteVarLength(uint32 val)
 {
+	// create a buffer of the values to write
+	// initialize to the first 7 bits of the value.
+	// The 8th bit is a flag bit which we use to inform
+	// us to stop writing out bits.
 	uint32 buffer = val & 0x7F;
 
+	// while the val still has values in the
+	// higher byte ranges, continue to add the bits
+	// into the buffer.
 	while ((val >>= 7) != 0)
-	{
+	{	
+		// shift the buffer over by 8 bits in order
+		// to make room for the next byte.
 		buffer <<= 8;
+
+		// write the 7 bits into the buffer
+		// set the 8th bit to 1. A '1' in the 8th position 
+		// is used as a flag later to tell us that there are more bits to write
 		buffer |= ((val & 0x7F) | 0x80);
 	}
 
 	while (true)
 	{
+		// keep writing out bytes, until we reach the byte where the flag
+		// bit is not set.
 		WriteByte(buffer);
-		if (buffer & 0x80)
+		if (buffer & 0x80){
+			// shift the buffer back to write out the next 7 bits.
 			buffer >>= 8;
-		else
+		}else{
+			// once the 8th bit is '0' we know that
+			// we have written the last byte; therefore we can now exit.
 			break;
+		}
+
 	}
 }
 
@@ -90,17 +110,18 @@ void MidiWriter::WriteTrack()
 	WriteFourCC('M', 'T', 'r', 'k');
 
 	long lengthPos = ftell(file);  // remember this to
-	Write32Bit(0);                 // write chunk length
+	Write32Bit(0);                 // temporarily write a chunk length
 
 	byteCount = 0;
 	uint32 oldTime = 0;
 	uint32 newTime;
 
-	WriteVarLength(0);                          // tempo change
-	uint32 val = 60000000 / BEATS_PER_MINUTE;   // meta event
+	// meta event
+	WriteVarLength(0);                          // tempo change	
 	WriteByte(0xFF);                            // to set our BPM
 	WriteByte(0x51);
 	WriteByte(0x03);
+	uint32 val = 60000000 / BEATS_PER_MINUTE;   // meta event
 	WriteByte(val >> 16);
 	WriteByte(val >> 8);
 	WriteByte(val);
@@ -137,11 +158,13 @@ void MidiWriter::WriteTrack()
 		}
 	}
 
+	//meta event to denote the end of the track
 	WriteVarLength(0);
 	WriteByte(0xFF);   // the end-of-track
 	WriteByte(0x2F);   // marker is required
 	WriteByte(0x00);
 
+	// go back to the beginning of the track and write out the byte length
 	fseek(file, lengthPos, SEEK_SET);
 	Write32Bit(byteCount);
 	fseek(file, 0, SEEK_END);

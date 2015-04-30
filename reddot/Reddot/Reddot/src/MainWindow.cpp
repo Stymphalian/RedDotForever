@@ -356,6 +356,7 @@ void MainWindow::CloseMidi()
 {
 	if (outHandle != NULL)
 	{
+		trace(__FILE__, __LINE__, "%d", 0);
 		::midiOutReset(outHandle);
 		::midiOutClose(outHandle);
 		outHandle = NULL;
@@ -363,10 +364,12 @@ void MainWindow::CloseMidi()
 
 	if (inHandle != NULL)
 	{
+		trace(__FILE__, __LINE__, "%d", 1);
 		::midiInReset(inHandle);
 		::midiInClose(inHandle);
 		inHandle = NULL;
 	}
+	int a = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
