@@ -186,8 +186,7 @@ void MainWindow::OnDestroy()
 			OnPlaybackDone();         // (message loop is dead)
 			break;
 	}
-
-	trace(__FILEW__, __LINE__,L"%s",unicode_utils::utf8_to_utf16( GetCurrentDir(),NULL).c_str());
+	
 	settings.Save();
 	CloseMidi();
 }
@@ -195,7 +194,7 @@ void MainWindow::OnDestroy()
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::OnRecord()
-{
+{	
 	if (state != STATE_RECORDING)
 	{
 		if (StartRecording())
@@ -255,11 +254,12 @@ void MainWindow::OnSave()
 		"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0", "mid");*/
 
 	// TODO: Get rid of this hack which creates s UTF-16 filter string
+	trace(__FILE__, __LINE__, "%s", "hello");
 	std::string filename = FilePicker(
 		hwnd, true, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, "", NULL,
 		L"MIDI Files (*.mid)\0*.mid\0All Files (*.*)\0*.*\0\0","mid");
 
-
+	
 	if (!filename.empty())
 	{		
 		MidiWriter writer;

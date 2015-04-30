@@ -44,8 +44,7 @@ Settings::Settings()
 
 void Settings::Load()
 {
-	if(_iniReader.Load(SETTING_FILENAME) == false){
-		trace(__FILEW__, __LINE__, L"%d", 1);
+	if(_iniReader.Load(SETTING_FILENAME) == false){		
 		// TODO: Error handling
 		return;
 	}
@@ -87,8 +86,7 @@ void Settings::Save()
     _iniReader.SetInt(SETTING_TRIGGER_STOP_STATUS, triggerStatus[TRIGGER_STOP]);
     _iniReader.SetInt(SETTING_TRIGGER_STOP_VALUE, triggerValue[TRIGGER_STOP]);
 
-	 if(_iniReader.Save(SETTING_FILENAME) == false){
-		 trace(__FILEW__, __LINE__, L"%d", 1);
+	 if(_iniReader.Save(SETTING_FILENAME) == false){		 
 		 //TODO: Error handling
 	 }   
 }

@@ -94,7 +94,6 @@ LRESULT HyperLink::OnReflectCommand(WPARAM wParam, LPARAM lParam)
 
 	if (HIWORD(wParam) == STN_CLICKED)
 	{
-		trace(__FILEW__, __LINE__, L"%s", unicode_utils::utf8_to_utf16(url,NULL));
 		if( !url.empty()){
 			OpenUrl(url.c_str());
 		}

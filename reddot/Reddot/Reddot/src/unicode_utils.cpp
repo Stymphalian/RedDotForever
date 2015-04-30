@@ -11,7 +11,7 @@ std::string unicode_utils::utf16_to_utf8(const wchar_t* utf16_str, int* success)
 {
     if(success != NULL){*success = 0;}
     if(utf16_str == NULL){ return "";}
-
+	 
     int s_len = WideCharToMultiByte(
         CP_UTF8,                // convert into UTF-8
         WC_ERR_INVALID_CHARS,   // safe-fail if an invalid UTF-16 char is found
@@ -32,25 +32,10 @@ std::string unicode_utils::utf16_to_utf8(const wchar_t* utf16_str, int* success)
     //  2) The string is an empty string, therefore s_len = 0
     // Therefore we must check to see if the call was successful or not.
     if(s_len == 0){
-        DWORD err = GetLastError();
-        if(err == ERROR_INSUFFICIENT_BUFFER){
-            trace(__FILEW__, __LINE__, L"%d", 0);
-        }
-        else if(err == ERROR_INVALID_FLAGS){
-            trace(__FILEW__, __LINE__, L"%d", 1);
-        }
-        else if(err == ERROR_INVALID_PARAMETER){
-            trace(__FILEW__, __LINE__, L"%d", 2);
-        }
-        else if(err == ERROR_NO_UNICODE_TRANSLATION){
-            trace(__FILEW__, __LINE__, L"%d", 3);
-        }else{
-            trace(__FILEW__, __LINE__, L"%d", 4);
-        }
-		  return "";
-        // if(err != ERROR_SUCCESS){
-        //     return "";
-        // }
+			DWORD err = GetLastError();        
+			if(err != ERROR_SUCCESS){
+					return "";
+			}
     }
 
     // Resize the string to be large enough to hold the converted string.
@@ -74,25 +59,10 @@ std::string unicode_utils::utf16_to_utf8(const wchar_t* utf16_str, int* success)
 
     if(s_len == 0){
         // Check for same ambiguous error case as sepcified above.
-        DWORD err = GetLastError();
-        if(err == ERROR_INSUFFICIENT_BUFFER){
-            trace(__FILEW__, __LINE__, L"%d", 5);
+        DWORD err = GetLastError();        
+        if(err != ERROR_SUCCESS){
+            return "";
         }
-        else if(err == ERROR_INVALID_FLAGS){
-            trace(__FILEW__, __LINE__, L"%d", 6);
-        }
-        else if(err == ERROR_INVALID_PARAMETER){
-            trace(__FILEW__, __LINE__, L"%d", 7);
-        }
-        else if(err == ERROR_NO_UNICODE_TRANSLATION){
-            trace(__FILEW__, __LINE__, L"%d", 8);
-        }else{
-            trace(__FILEW__, __LINE__, L"%d", 9);
-        }
-        return "";
-        // if(err != ERROR_SUCCESS){
-        //     return "";
-        // }
     }
 
     // Set the success flag as appropriate and return the converted string.
@@ -131,28 +101,10 @@ std::wstring unicode_utils::utf8_to_utf16(const char* utf8_str,int* success)
     //  2) The string is an empty string, therefore s_len = 0
     // Therefore we must check to see if the call was successful or not.
     if(s_len == 0){
-        DWORD err = GetLastError();
-
-        if(err == ERROR_INSUFFICIENT_BUFFER){
-            trace(__FILEW__, __LINE__, L"%d", 0);
-        }
-        else if(err == ERROR_INVALID_FLAGS){
-            trace(__FILEW__, __LINE__, L"%d", 1);
-        }
-        else if(err == ERROR_INVALID_PARAMETER){
-            trace(__FILEW__, __LINE__, L"%d", 2);
-        }
-        else if(err == ERROR_NO_UNICODE_TRANSLATION){
-            trace(__FILEW__, __LINE__, L"%d", 3);
-        }else{
-            trace(__FILEW__, __LINE__, L"%d", 4);
-        }
-        return L"";
-
-        // if(err != ERROR_SUCCESS){
-        //     trace(__FILEW__, __LINE__, L"%d", s_len);
-        //     return L"";
-        // }
+			DWORD err = GetLastError();
+         if(err != ERROR_SUCCESS){
+             return L"";
+         }
     }
 
     // now do the conversion of the string
@@ -172,25 +124,10 @@ std::wstring unicode_utils::utf8_to_utf16(const char* utf8_str,int* success)
 
     if(s_len == 0){
         // Check for same ambiguous error case as sepcified above.
-        DWORD err = GetLastError();
-        if(err == ERROR_INSUFFICIENT_BUFFER){
-            trace(__FILEW__, __LINE__, L"%d", 5);
-        }
-        else if(err == ERROR_INVALID_FLAGS){
-            trace(__FILEW__, __LINE__, L"%d", 6);
-        }
-        else if(err == ERROR_INVALID_PARAMETER){
-            trace(__FILEW__, __LINE__, L"%d", 7);
-        }
-        else if(err == ERROR_NO_UNICODE_TRANSLATION){
-            trace(__FILEW__, __LINE__, L"%d", 8);
-        }else{
-            trace(__FILEW__, __LINE__, L"%d", 9);
-        }
-        return L"";
-        // if(err != ERROR_SUCCESS){
-        //     return L"";
-        // }
+			DWORD err = GetLastError();
+         if(err != ERROR_SUCCESS){
+             return L"";
+         }
     }
 
     // set the success flag as appropriate and return the converted string.
